@@ -38,17 +38,18 @@ jobs:
     - name: Read app version from makefile
       run: |
         echo "version=$(make print-APP_VERSION)" >> $GITHUB_ENV
-
+        cd release
+        zip -r ../quickntp.zip *
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
-        path: release/quickntp.ovl
+        path: quickntp.zip
         include-hidden-files: true
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.release_token }}
-        file: release/quickntp.ovl
+        file: quickntp.zip
         tag: ${{ github.ref }}
         overwrite: true
         file_glob: true
